@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  app:
+    container_name: prisma-client-py-sample
+    build:
+      context: .
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_HOST: db
+      DATABASE_NAME: postgres
+    tty: true
+    volumes:
+      - ./src:/code/src
+      - ./prisma/schema.prisma:/code/prisma/schema.prisma
+      - ./pyproject.toml:/code/pyproject.toml
+      - ./poetry.lock:/code/poetry.lock
+    depends_on:
+      - db
+  db:
+    image: postgres:12
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data:cached
+
+volumes:
+  db-data:
