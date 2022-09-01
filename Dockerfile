@@ -26,14 +26,6 @@ ENV APP_PATH=/code
 RUN apt-get update && \
     apt-get install -y dnsutils
 
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
-    apt-get install -y nodejs
-
-# RUN npm install -g prisma@3.13.0 @prisma/client@3.13.0
-# RUN npm install -g prisma@3.13.0
-
-# ENV PATH=/usr/bin:$PATH
-
 WORKDIR /root
 
 COPY ./prisma/set_database_url.sh ./set_database_url.sh
@@ -49,16 +41,22 @@ COPY --from=prisma-engines $APP_PATH/build/prisma-engines/target/release/introsp
 COPY --from=prisma-engines $APP_PATH/build/prisma-engines/target/release/migration-engine $APP_PATH/bin/migration-engine
 COPY --from=prisma-engines $APP_PATH/build/prisma-engines/target/release/query-engine $APP_PATH/bin/query-engine
 
+RUN wget -O prisma-cli-linux.gz https://prisma-photongo.s3-eu-west-1.amazonaws.com/prisma-cli-3.13.0-linux-arm64.gz && \
+    gzip -d ./prisma-cli-linux.gz && \
+    mv ./prisma-cli-linux ./bin/prisma-cli-linux
+
 RUN chmod +x bin/prisma-fmt
 RUN chmod +x bin/introspection-engine
 RUN chmod +x bin/migration-engine
 RUN chmod +x bin/query-engine
+RUN chmod +x bin/prisma-cli-linux
 
 ENV PRISMA_QUERY_ENGINE_BINARY=$APP_PATH/bin/query-engine
 ENV PRISMA_MIGRATION_ENGINE_BINARY=$APP_PATH/bin/migration-engine
 ENV PRISMA_INTROSPECTION_ENGINE_BINARY=$APP_PATH/bin/introspection-engine
 ENV PRISMA_FMT_BINARY=$APP_PATH/bin/prisma-fmt
-ENV PRISMA_CLI_BINARY=/usr/bin/prisma
+ENV PRISMA_CLI_BINARY=$APP_PATH/bin/prisma-cli-linux
+ENV PRISMA_BINARY_CACHE_DIR=$APP_PATH/bin/
 
 RUN pip install poetry && \
     poetry config virtualenvs.create false
