@@ -6,7 +6,7 @@ authors = ["Makoto Yoshioka <y.mako2@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-prisma = "^0.6.6"
+prisma = { git = "https://github.com/RobertCraigie/prisma-client-py.git", branch = "main" }
 
 [tool.poetry.dev-dependencies]
 
