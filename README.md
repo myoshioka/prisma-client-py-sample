@@ -1,12 +1,13 @@
-# Sample application using Prisma Client Python with ARM environment.
+# Sample application using Prisma Client Python
 
 ## Overview
 
-- This repository is a sample application using [Prisma Client Python](https://github.com/RobertCraigie/prisma-client-py).
+- This repository is a sample application using [Prisma Client Python](https://github.com/RobertCraigie/prisma-client-py) with ARM environment.
 
 ## Description
 
 This application is intended for use in an arm64-linux environment. However, Prisma Client Python does not yet support arm64-linux, so the Prisma engine is built and used directly in the docker container.
+Prisma-Cli is used to download arm64 binaries.
 
 ## Getting Started
 
