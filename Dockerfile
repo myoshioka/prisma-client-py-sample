@@ -51,12 +51,12 @@ RUN chmod +x bin/migration-engine
 RUN chmod +x bin/query-engine
 RUN chmod +x bin/prisma-cli-linux
 
-ENV PRISMA_QUERY_ENGINE_BINARY=$APP_PATH/bin/query-engine
-ENV PRISMA_MIGRATION_ENGINE_BINARY=$APP_PATH/bin/migration-engine
-ENV PRISMA_INTROSPECTION_ENGINE_BINARY=$APP_PATH/bin/introspection-engine
-ENV PRISMA_FMT_BINARY=$APP_PATH/bin/prisma-fmt
-ENV PRISMA_CLI_BINARY=$APP_PATH/bin/prisma-cli-linux
-ENV PRISMA_BINARY_CACHE_DIR=$APP_PATH/bin/
+ENV PRISMA_QUERY_ENGINE_BINARY=$APP_PATH/bin/query-engine \
+    PRISMA_MIGRATION_ENGINE_BINARY=$APP_PATH/bin/migration-engine \
+    PRISMA_INTROSPECTION_ENGINE_BINARY=$APP_PATH/bin/introspection-engine \
+    PRISMA_FMT_BINARY=$APP_PATH/bin/prisma-fmt \
+    PRISMA_CLI_BINARY=$APP_PATH/bin/prisma-cli-linux \
+    PRISMA_BINARY_CACHE_DIR=$APP_PATH/bin/
 
 RUN pip install poetry && \
     poetry config virtualenvs.create false
